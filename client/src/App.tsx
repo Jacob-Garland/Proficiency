@@ -1,34 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-// import './App.css'
+// import { useState } from 'react'
+import { Box, Flex, Heading, Text, Button, VStack, Input, SimpleGrid, Icon } from '@chakra-ui/react';
+import { FaHammer, FaCamera, FaComments } from 'react-icons/fa';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Flex direction="column" minH={'100vh'} bg="lightblue">
+      <Box as="section" bg="green.700" color="black" px={8} py={4} boxShadow={'md'}>
+        <Heading size="3xl" textAlign="center"> Proficiency </Heading>
+      </Box>
+      <Box as="section" bg="gray.200" py={12} px={8} textAlign="center">
+        <VStack spacing={4}>
+          <Heading size="xl"> 🛠️ Showcase Your Craftsmanship 🏗️ </Heading>
+          <Text fontSize="lg" color="gray.600">
+            Proficiency lets tradesmen highlight their work, share job sites, and connect with peers.
+          </Text>
+          <Text fontSize="lg" color="gray.600">
+            Create a profile to get started adding your projects and connecting with other tradesmen.
+          </Text>
+        </VStack>
+      </Box>
+      <Box as="section" bg="gray.200" py={12} px={8}>
+        <Heading size="lg" textAlign="center" mb={8}> Features to Work for You 🚀</Heading>
+        <SimpleGrid columns={[1, 2, 3]} spacing={8}>
+          <Box bg="gray.500" p={6} borderRadius="lg" boxShadow="lg" textAlign="center">
+            <Icon as={FaHammer} w={10} h={10} color="green.400" mb={4} />
+            <Heading size="md">Add Your Projects</Heading>
+            <Text color="gray.200">Showcase jobs you've completed, from start to finish, with detailed descriptions.</Text>
+          </Box>
+          <Box bg="gray.50" p={6} borderRadius="lg" boxShadow="lg" textAlign="center">
+            <Icon as={FaCamera} w={10} h={10} color="green.400" mb={4} />
+            <Heading size="md">Photo Albums</Heading>
+            <Text color="gray.600">Upload photos of your work, organize them into albums, and share with friends.</Text>
+          </Box>
+          <Box bg="gray.500" p={6} borderRadius="lg" boxShadow="lg" textAlign="center">
+            <Icon as={FaComments} w={10} h={10} color="green.400" mb={4} />
+            <Heading size="md">Connect & Chat</Heading>
+            <Text color="gray.200">Message your peers, discuss projects, and collaborate on new opportunities.</Text>
+          </Box>
+        </SimpleGrid>
+      </Box>
+
+      {/* Login/Signup Section */}
+      <Flex as="section" flex={1} justify="center" align="center" py={12} px={8}>
+        <Box bg="gray.300" p={8} borderRadius="lg" boxShadow="lg" w="full" maxW="md">
+          <VStack spacing={4}>
+            <Heading size="md">Sign In/Sign Up</Heading>
+            <Input placeholder="Email" type="email" />
+            <Input placeholder="Password" type="password" />
+            <Button colorScheme="green" w="full" color="black">Login</Button>
+            <Text color="black">or</Text>
+            <Button colorScheme="green" w="full" color="black">Sign Up</Button>
+          </VStack>
+        </Box>
+      </Flex>
+
+      <Box as="footer" bg="green.700" color="white" py={4} px={8} textAlign="center">
+        <Text>Creator: Jacob Garland</Text>
+      </Box>
+    </Flex>
   )
 }
 
