@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build": "tsc",
+    "user-seed": "tsx seeds/testuser.ts",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "render-build": "npm install && npm run build"
