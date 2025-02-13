@@ -1,38 +1,37 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { User } from "../models/User";
+import User from "../models/User.js";
+import { IUser } from "../models/User.js";
 import dotenv from "dotenv";
+import { generateToken } from "../utils/auth.js";
 
 dotenv.config();
 
 const resolvers = {
   Query: {
-    async getUser(_: any, { id }: { id: string }) {
-      return await User.findById(id);
+    me: async (_: any, __: any, { user }: any) => {
+      if (!user) throw new Error("Not authenticated");
+      return user;
     },
   },
-
   Mutation: {
-    async register(_: any, { username, email, password }: { username: string; email: string; password: string }) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new User({ username, email, password: hashedPassword });
-      await user.save();
+    signup: async (_: any, { email, password }: any) => {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) throw new Error("Email already in use");
 
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1d" });
+      const newUser = new User({ email, password }) as IUser;
+      await newUser.save();
 
-      return { token, user };
+      const token = generateToken(newUser);
+      return { user: newUser, token };
     },
 
-    async login(_: any, { email, password }: { email: string; password: string }) {
-      const user = await User.findOne({ email });
-      if (!user) throw new Error("Authentication Failed: User not found");
+    login: async (_: any, { email, password }: any) => {
+      const user = (await User.findOne({ email })) as IUser | null;
+      if (!user || !(await user.comparePassword(password))) {
+        throw new Error("Invalid password");
+      }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) throw new Error("Authentication Failed: Invalid password");
-
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1d" });
-
-      return { token, user };
+      const token = generateToken(user);
+      return { user, token };
     },
   },
 };

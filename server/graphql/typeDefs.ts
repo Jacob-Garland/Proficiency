@@ -5,7 +5,7 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    password: String!
+    token: String!
     createdAt: String!
   }
 
@@ -15,11 +15,11 @@ const typeDefs = gql`
   }
 
   type Query {
-    getUser(id: ID!): User
+    me: User
   }
 
   type Mutation {
-    register(username: String!, email: String!, password: String!): AuthPayload
+    signup(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
   }
 `;
