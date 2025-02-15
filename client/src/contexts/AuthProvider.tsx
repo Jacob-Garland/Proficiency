@@ -3,7 +3,13 @@ import { AuthContext } from "./AuthContext";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const [user, setUser] = useState<any>(JSON.parse(localStorage.getItem("user") || "null"));
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+  }
+
+  const [user, setUser] = useState<User | null>(JSON.parse(localStorage.getItem("user") || "null"));
 
   useEffect(() => {
     if (token) {
@@ -14,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem("user", JSON.stringify(user));
   }, [token, user]);
 
-  const login = (newToken: string, userData: any) => {
+  const login = (newToken: string, userData: User) => {
     setToken(newToken);
     setUser(userData);
   };
