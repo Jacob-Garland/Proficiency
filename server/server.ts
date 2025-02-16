@@ -22,6 +22,10 @@ app.use(
     }));
 app.use(express.json());
 
+app.get("/", (_, res) => {
+    res.send("Server is running");
+});
+
 const startServer = async () => {
     const server = new ApolloServer({
         typeDefs,
