@@ -1,37 +1,61 @@
-import User from "../models/User.js";
-import { IUser } from "../models/User.js";
+import { User } from "../models/User.js";
 import dotenv from "dotenv";
 import { generateToken } from "../utils/auth.js";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
 const resolvers = {
   Query: {
-    me: async (_: any, __: any, { user }: any) => {
-      if (!user) throw new Error("Not authenticated");
-      return user;
+      profile: async (_: any, __: any, context: any) => {
+      if (!context.user) {
+        throw new Error("Unauthorized");
+      }
+      return await User.findById(context.user.id);
     },
   },
   Mutation: {
-    signup: async (_: any, { email, password }: any) => {
+    signup: async (
+      _: any, 
+      { email, password }: { email: string; password: string}
+    ) => {
       const existingUser = await User.findOne({ email });
       if (existingUser) throw new Error("Email already in use");
 
-      const newUser = new User({ email, password }) as IUser;
-      await newUser.save();
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = await User.create({ email, password: hashedPassword });
 
       const token = generateToken(newUser);
       return { user: newUser, token };
     },
 
-    login: async (_: any, { email, password }: any) => {
-      const user = (await User.findOne({ email })) as IUser | null;
-      if (!user || !(await user.comparePassword(password))) {
-        throw new Error("Invalid password");
-      }
+    login: async (
+      _: any, 
+      { email, password }: {email: string; password: string}
+    ) => {
+      const user = (await User.findOne({ email }));
+      if (!user ) {throw new Error("Invalid email or password")};
+
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) {throw new Error("Invalid email or password")};
 
       const token = generateToken(user);
       return { user, token };
+    },
+    updateProfile: async (
+      _: any,
+      { email }: { email: string }, 
+      context: any
+    ) => {
+      if (!context.user) {
+        throw new Error("Unauthorized");
+      }
+      const updatedUser = await User.findByIdAndUpdate(
+        context.user.id,
+        { email },
+        { new: true }
+      );
+      return updatedUser;
     },
   },
 };

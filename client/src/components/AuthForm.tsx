@@ -1,23 +1,46 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
 import { Box, Button, Input, VStack, Text } from "@chakra-ui/react";
+import { gql, useMutation } from "@apollo/client";
+
+const LOGIN = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`;
+
+const SIGNUP = gql`
+  mutation Signup($email: String!, $password: String!) {
+    signup(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 export default function AuthForm() {
   const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [loginMutation] = useMutation(LOGIN);
+  const [signupMutation] = useMutation(SIGNUP);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSignup) {
-      console.log("Signing up with:", formData);
-    } else {
-      console.log("Logging in with:", formData);
-      login(formData); // Mock login function for now
+    try {
+      const { data } = isSignup
+        ? await signupMutation({ variables: { email, password } })
+        : await loginMutation({ variables: { email, password } });
+
+      if (data) {
+        const token = isSignup ? data.signup.token : data.login.token;
+        login(token, { id: "", name: "", email });
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -30,15 +53,17 @@ export default function AuthForm() {
           name="email"
           type="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <Input
           name="password"
           type="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
         <Button colorScheme="green" width="full" onClick={handleSubmit}>
