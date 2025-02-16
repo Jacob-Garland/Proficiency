@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
-import { Box, Button, Input, VStack, Text } from "@chakra-ui/react";
+import { Box, Button, Input, VStack, Text, Flex } from "@chakra-ui/react";
 import { gql, useMutation } from "@apollo/client";
 
 const LOGIN = gql`
@@ -45,7 +45,8 @@ export default function AuthForm() {
   };
 
   return (
-    <Box p={6} borderWidth={1} borderRadius="lg" boxShadow="md">
+    <Flex as="section" flex={1} justify="center" align="center" py={12} px={8}>
+      <Box bg="gray.300" p={8} borderRadius="lg" boxShadow="lg" w="full" maxW="md">
       <VStack spacing={4}>
         <Text fontSize="xl">{isSignup ? "Create an Account" : "Login"}</Text>
 
@@ -79,5 +80,6 @@ export default function AuthForm() {
         </Button>
       </VStack>
     </Box>
+  </Flex>
   );
 }

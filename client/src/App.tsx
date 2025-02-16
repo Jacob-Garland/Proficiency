@@ -1,9 +1,20 @@
 // import { useState } from 'react'
-import { Box, Flex, Heading, Text, Button, VStack, Input, SimpleGrid, Icon } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, VStack, SimpleGrid, Icon } from '@chakra-ui/react';
 import { FaHammer, FaCamera, FaComments } from 'react-icons/fa';
+import AuthForm from './components/AuthForm';
+import { useAuth } from './contexts/useAuth';
+import ProtectedRoute from './components/ProtectedRoute';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-function App() {
+// Pages
+import Home from './pages/Home';
+import Jobs from './pages/Jobs';
+import Photos from './pages/Photos';
+import Profile from './pages/Profile';
+import Chat from './pages/Chat';
+import Dashboard from './pages/Dashboard';
 
+function LandingPage() {
   return (
     <Flex direction="column" minH={'100vh'} bg="lightblue">
       <Box as="section" bg="green.700" color="black" px={8} py={4} boxShadow={'md'}>
@@ -42,23 +53,39 @@ function App() {
       </Box>
 
       {/* Login/Signup Section */}
-      <Flex as="section" flex={1} justify="center" align="center" py={12} px={8}>
-        <Box bg="gray.300" p={8} borderRadius="lg" boxShadow="lg" w="full" maxW="md">
-          <VStack spacing={4}>
-            <Heading size="md">Sign In/Sign Up</Heading>
-            <Input placeholder="Email" type="email" />
-            <Input placeholder="Password" type="password" />
-            <Button colorScheme="green" w="full" color="black">Login</Button>
-            <Text color="black">or</Text>
-            <Button colorScheme="green" w="full" color="black">Sign Up</Button>
-          </VStack>
-        </Box>
-      </Flex>
+      <AuthForm />
 
       <Box as="footer" bg="green.700" color="white" py={4} px={8} textAlign="center">
         <Text>Creator: Jacob Garland</Text>
       </Box>
     </Flex>
+  )
+}
+
+function App() {
+  const { user } = useAuth();
+
+  return (
+    <Router>
+      <Routes>
+        {/* Public Route: Landing Page */}
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LandingPage />} />
+
+        {/* Protected Routes with Dashboard Layout */}
+        <Route path="/dashboard" 
+            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+        >
+        <Route index element={<Home />} />  {/* Default page after login */}
+        <Route path="profile" element={<Profile />} />
+        <Route path="jobs" element={<Jobs />} />
+        <Route path="photos" element={<Photos />} />
+        <Route path="chat" element={<Chat />} />
+        </Route>
+
+          {/* Catch-all Route */}
+          <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   )
 }
 
