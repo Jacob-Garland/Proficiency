@@ -6,53 +6,51 @@ import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './graphql/typeDefs.js';
 import resolvers from './graphql/resolvers.js';
 import { authMiddleware } from './utils/auth.js';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
-
 const app = express();
 
-app.use(
-    cors({
-        origin: ["https://proficiency.onrender.com"],
-        credentials: true,
-        methods: "GET, POST"
-    }));
-app.use(express.json());
-
-app.get("/", (_, res) => {
-    res.send("Server is running");
-});
-
-const startServer = async () => {
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-        context: ({ req }) => {
-            const user = authMiddleware({ req });
-            return { user };
-        },
-    });
-
-    await server.start();
-    server.applyMiddleware({ app, path: "/graphql" });
-
-    try {
-        if (!MONGO_URI) {
-            throw new Error("MongoDB connection string missing in .env");
-        }
-
-        await connectDB();
-        
-        app.listen(PORT, () => {
-        console.log(`🚀 Server running at http://localhost:${PORT}/graphql`);
-        });
-    } catch (error) {
-        console.error("❌ Server error:", error);
-        process.exit(1);
-    }
+const corsOptions = {
+    origin: ["https://proficiency.onrender.com"],
+    credentials: true,
+    methods: ["GET, POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-startServer();
+app.use(cors(corsOptions),);
+app.use(bodyParser.json());
+app.options("*", cors(corsOptions));
+
+app.get("/", (_req, res) => {
+    res.send("GraphQL server is running.");
+});
+
+connectDB();
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => authMiddleware({ req }),
+});
+
+async function startServer() {
+    await connectDB();
+    await server.start();
+
+    server.applyMiddleware({
+      app,
+      path: '/graphql',
+      cors: false, // CORS already handled above
+    });
+  
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    });
+}
+  
+startServer().catch((err) => {
+    console.error('Server startup error:', err);
+});

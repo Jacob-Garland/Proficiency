@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request } from "express";
 
-const SECRET = process.env.JWT_SECRET || "defaultsecret";
+const SECRET = process.env.JWT_SECRET || 'supersecret';
 const expiration = "1d";
 
 export const generateToken = (user: any) => {
@@ -10,19 +10,21 @@ export const generateToken = (user: any) => {
 };
 
 export const authMiddleware = ({ req }: { req: Request }) => {
-  let token = req.headers.authorization || "";
+  let token = req.headers.authorization || '';
 
-  if (token.startsWith("Bearer ")) {
-    token = token.slice(7, token.length).trim();
+  if (token && token.startsWith('Bearer ')) {
+    token = token.split(' ')[1];
   }
 
-  if (!token) return null;
-  
+  if (!token) {
+    return { user: null };
+  }
+
   try {
-    const user = jwt.verify(token, SECRET);
-    return user;
+    const { data } = jwt.verify(token, SECRET) as { data: any };
+    return { user: data };
   } catch {
-    console.warn("Invalid token");
-    return null;
+    console.warn('Invalid token');
+    return { user: null };
   }
 };
