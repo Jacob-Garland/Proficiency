@@ -3,26 +3,12 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { ChakraProvider } from '@chakra-ui/react'
 import { AuthProvider } from './contexts/AuthProvider.tsx'
-import { setContext } from '@apollo/client/link/context'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
-
-const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  uri: import.meta.env.VITE_GRAPHQL_ENDPOINT,
   cache: new InMemoryCache(),
+  credentials: 'include',
 });
 
 createRoot(document.getElementById('root')!).render(
