@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/useAuth";
 import { Box, Button, Input, VStack, Text, Flex } from "@chakra-ui/react";
 import { gql, useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -21,6 +22,7 @@ const SIGNUP = gql`
 
 export default function AuthForm() {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +42,8 @@ export default function AuthForm() {
         const token = isSignup ? data.signup.token : data.login.token;
         login(token, { id: "", name: "", email });
       }
+      localStorage.setItem('token', data.signUp.token || data.login.token);
+      navigate('/dashboard');
     } catch (error) {
       console.error("Error:", error);
     }
