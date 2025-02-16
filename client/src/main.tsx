@@ -6,9 +6,12 @@ import { AuthProvider } from './contexts/AuthProvider.tsx'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: import.meta.env.VITE_GRAPHQL_ENDPOINT,
+  uri: import.meta.env.VITE_GRAPHQL_ENDPOINT || 'http://localhost:5000/graphql',
   cache: new InMemoryCache(),
   credentials: 'include',
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 createRoot(document.getElementById('root')!).render(

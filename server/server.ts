@@ -14,7 +14,12 @@ const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: ["https://proficiency.onrender.com"],
+        credentials: true,
+        methods: "GET, POST"
+    }));
 app.use(express.json());
 
 const startServer = async () => {
