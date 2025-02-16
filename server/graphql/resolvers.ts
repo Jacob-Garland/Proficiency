@@ -17,9 +17,9 @@ const resolvers = {
   Mutation: {
     signup: async (
       _: any, 
-      { email, password }: { email: string; password: string}
+      { username, email, password }: { username:string; email: string; password: string}
     ) => {
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email, username });
       if (existingUser) throw new Error("Email already in use");
 
       const hashedPassword = await bcrypt.hash(password, 10);

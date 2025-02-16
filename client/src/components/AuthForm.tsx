@@ -21,6 +21,7 @@ const SIGNUP = gql`
 
 export default function AuthForm() {
   const { login } = useAuth();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
@@ -32,7 +33,7 @@ export default function AuthForm() {
     e.preventDefault();
     try {
       const { data } = isSignup
-        ? await signupMutation({ variables: { email, password } })
+        ? await signupMutation({ variables: { username, email, password } })
         : await loginMutation({ variables: { email, password } });
 
       if (data) {
@@ -50,6 +51,14 @@ export default function AuthForm() {
       <VStack spacing={4}>
         <Text fontSize="xl">{isSignup ? "Create an Account" : "Login"}</Text>
 
+        {isSignup ? <Input
+          name="username"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        /> : null}
         <Input
           name="email"
           type="email"
