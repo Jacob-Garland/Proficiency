@@ -10,8 +10,8 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <Box bg="green.700" p={4} color="white">
-      <Flex align="center" justify="space-between">
+    <Box bg="green.700" p={4} color="white" boxShadow="lg">
+      <Flex align="center">
         {/* Logo */}
         <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" display="flex" justifyContent="center" onClick={() => { navigate("/home"); }}>
           Proficiency
