@@ -58,7 +58,7 @@ export default function Home() {
         <Box bg="white" boxShadow="lg" borderRadius="md" minH="80vh" p={4}>
           {/* Placeholder for User Post Cards */}
           <Text textAlign="center" color="black">
-            No posts yet. Start by adding a post or job!
+            No posts  to display yet. Start by adding a post, job, or friends!
           </Text>
         </Box>
       </Box>

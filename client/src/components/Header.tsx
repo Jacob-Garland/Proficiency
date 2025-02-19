@@ -38,13 +38,13 @@ export default function Header() {
           size="lg" 
           ml={6} />
         <MenuList bg="gray.300">
-            <MenuItem 
+            {/* <MenuItem 
               onClick={() => navigate("/home")}
               fontWeight="bold"
               color={location.pathname === "/home" ? "white" : "black"}
               bg={location.pathname === "/home" ? "blue.500" : "transparent"}
               _hover={{ bg: "blue.300", color: "white" }}
-            > Home </MenuItem>
+            > Home </MenuItem> */}
             <MenuItem 
               onClick={() => navigate("/profile")}
               fontWeight="bold"
