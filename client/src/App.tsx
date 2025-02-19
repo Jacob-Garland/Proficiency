@@ -1,10 +1,10 @@
-// import { useState } from 'react'
 import { Box, Flex, Heading, Text, VStack, SimpleGrid, Icon } from '@chakra-ui/react';
 import { FaHammer, FaCamera, FaComments } from 'react-icons/fa';
 import AuthForm from './components/AuthForm';
+import Header from './components/Header';
 import { useAuth } from './contexts/useAuth';
 import ProtectedRoute from './components/ProtectedRoute';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 // Pages
 import Home from './pages/Home';
@@ -12,8 +12,8 @@ import Jobs from './pages/Jobs';
 import Photos from './pages/Photos';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
-import Dashboard from './pages/Dashboard';
 
+// PUBLIC HOME PAGE
 function LandingPage() {
   return (
     <Flex direction="column" minH={'100vh'} bg="lightblue">
@@ -52,7 +52,7 @@ function LandingPage() {
         </SimpleGrid>
       </Box>
 
-      {/* Login/Signup Section */}
+      {/* Login/Signup Form, IMPORTED */}
       <AuthForm />
 
       <Box as="footer" bg="green.700" color="white" py={4} px={8} textAlign="center">
@@ -62,6 +62,16 @@ function LandingPage() {
   )
 }
 
+// Layout for Protected Pages
+function DashboardLayout() {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+}
+
 function App() {
   const { user } = useAuth();
 
@@ -69,21 +79,22 @@ function App() {
     <Router>
       <Routes>
         {/* Public Route: Landing Page */}
-        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LandingPage />} />
+        <Route path="/" element={user ? <Navigate to="/home" /> : <LandingPage />} />
 
-        {/* Protected Routes with Dashboard Layout */}
-        <Route path="/dashboard" 
-            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+        {/* Protected Routes Inside Header */}
+        <Route path="/" 
+            element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
         >
+          
         <Route index element={<Home />} />  {/* Default page after login */}
-        <Route path="profile" element={<Profile />} />
-        <Route path="jobs" element={<Jobs />} />
-        <Route path="photos" element={<Photos />} />
-        <Route path="chat" element={<Chat />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/photos" element={<Photos />} />
+        <Route path="/chat" element={<Chat />} />
         </Route>
 
-          {/* Catch-all Route */}
-          <Route path="*" element={<Navigate to="/" />} />
+        {/* Catch-all Route */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   )
