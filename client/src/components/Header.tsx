@@ -29,6 +29,7 @@ export default function Header() {
         />
 
         {/* Hamburger Dropdown Menu */}
+        <Box>
         <Menu>
         <MenuButton 
           as={IconButton} 
@@ -74,6 +75,7 @@ export default function Header() {
             > Chat </MenuItem>
         </MenuList>
         </Menu>
+        </Box>
       </Flex>
     </Box>
   );
