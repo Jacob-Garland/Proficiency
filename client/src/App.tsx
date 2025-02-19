@@ -85,7 +85,6 @@ function App() {
         <Route path="/" 
             element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
         >
-          
         <Route index element={<Home />} />  {/* Default page after login */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/jobs" element={<Jobs />} />

@@ -46,7 +46,7 @@ export default function Home() {
             Home Feed
           </Text>
           <Flex gap={2}>
-            <Button colorScheme="blue" onClick={() => console.log("Add Job")}>
+            <Button colorScheme="green" onClick={() => console.log("Add Job")}>
               Add Job
             </Button>
             <Button colorScheme="green" onClick={() => console.log("Add Post")}>
@@ -74,6 +74,7 @@ export default function Home() {
             left={4}
             zIndex={10}
             colorScheme="blue"
+            size="lg"
             aria-label="Open Sidebar"
           />
           <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
