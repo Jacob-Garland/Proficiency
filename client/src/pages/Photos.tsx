@@ -12,16 +12,16 @@ export default function Photos() {
   ];
 
   return (
-    <Container maxW="container.lg" py={10} bg="gray.300">
+    <Container maxW="container.lg" py={10} bg="gray.200">
       {/* Header Section */}
       <VStack spacing={4} align="center">
-        <Heading size="xl" color="blue.600">
-          My Photos
+        <Heading size="xl" color="blue.500">
+          My Photos 📸
         </Heading>
-        <Text fontSize="lg" color="gray.500">
+        <Text fontSize="lg" color="black" textAlign="center">
           Organize your work into albums. Click to view photos.
         </Text>
-        <Button colorScheme="blue" mt={4}>Upload Album</Button>
+        <Button colorScheme="blue" mt={4}>Upload Photos</Button>
       </VStack>
 
       {/* Albums Grid */}
@@ -38,7 +38,7 @@ export default function Photos() {
               key={album.id}
               borderRadius="md"
               overflow="hidden"
-              boxShadow="md"
+              boxShadow="lg"
               cursor="pointer"
               onClick={() => navigate(`/photos/${album.id}`)} // Navigate to album page from database here
             >

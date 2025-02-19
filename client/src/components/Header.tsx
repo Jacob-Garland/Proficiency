@@ -10,7 +10,7 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <Box bg="teal.500" p={4} color="white">
+    <Box bg="green.700" p={4} color="white">
       <Flex align="center">
         <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" onClick={() => navigate("/home")}>
           Proficiency
@@ -36,7 +36,14 @@ export default function Header() {
           colorScheme="blue" 
           size="lg" 
           ml={6} />
-        <MenuList bg="gray.200">
+        <MenuList bg="gray.300">
+            <MenuItem 
+              onClick={() => navigate("/home")}
+              fontWeight="bold"
+              color={location.pathname === "/home" ? "white" : "black"}
+              bg={location.pathname === "/home" ? "blue.500" : "transparent"}
+              _hover={{ bg: "blue.300", color: "white" }}
+            > Home </MenuItem>
             <MenuItem 
               onClick={() => navigate("/profile")}
               fontWeight="bold"
