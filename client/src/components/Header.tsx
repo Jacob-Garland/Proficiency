@@ -11,9 +11,9 @@ export default function Header() {
 
   return (
     <Box bg="green.700" p={4} color="white">
-      <Flex align="center" alignContent={"center"}>
+      <Flex align="center" justify={"space-between"}>
         {/* Logo */}
-        <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" onClick={() => { navigate("/home"); }}>
+        <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" display={"flex"} justifyContent={"center"} onClick={() => { navigate("/home"); }}>
           Proficiency
         </Button>
 
