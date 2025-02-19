@@ -1,4 +1,4 @@
-import { Box, Flex, Spacer, Button, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { Box, Flex, Button, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
@@ -11,13 +11,11 @@ export default function Header() {
 
   return (
     <Box bg="green.700" p={4} color="white">
-      <Flex align="center" justify={"space-between"}>
+      <Flex align="center" justify="space-between">
         {/* Logo */}
-        <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" display={"flex"} justifyContent={"center"} onClick={() => { navigate("/home"); }}>
+        <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" display="flex" justifyContent="center" onClick={() => { navigate("/home"); }}>
           Proficiency
         </Button>
-
-        <Spacer />
 
         {/* Logout Button */}
         <IconButton
