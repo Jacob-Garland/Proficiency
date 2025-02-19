@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context'
 
 const httplink = createHttpLink({
-  uri: process.env.VITE_GRAPHQL_ENDPOINT || 'https://proficiency-backend.onrender.com/graphql',
+  uri: process.env.VITE_GRAPHQL_ENDPOINT || 'http://localhost:4000/graphql',
   credentials: 'include',
 })
 
