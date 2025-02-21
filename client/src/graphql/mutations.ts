@@ -24,7 +24,8 @@ export const LOGIN_MUTATION = gql`
         profilePic
         location
         bio
-        albums[albums.id, albums.name]
+        albums[]
+        posts[]
       }
     }
   }

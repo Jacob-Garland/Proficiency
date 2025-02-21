@@ -3,13 +3,22 @@ import { gql } from '@apollo/client';
 export const ME_QUERY = gql`
 query Me {
   me {
-    id
-    name
+    _id
+    username
     email
     profilePic
     location
     bio
-    albums[albums.id, albums.name]
-  }
+    albums {
+      _id
+      name
+      photos
+    }
+    posts {
+      _id
+      title
+      body
+      photos
+    }
 }
 `;
