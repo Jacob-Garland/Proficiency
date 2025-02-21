@@ -32,7 +32,7 @@ function App() {
 
         {/* Protected Routes Inside Header */}
         {user && (
-          <Route path="/home" 
+          <Route path="/" 
             element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
           >
           <Route index element={<Home />} />  {/* Default page after login */}
