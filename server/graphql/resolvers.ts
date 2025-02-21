@@ -8,7 +8,7 @@ const secret = process.env.JWT_SECRET || "supersecret";
 
 const resolvers = {
   Query: {
-      profile: async (_: any, __: any, context: any) => {
+      me: async (_: any, __: any, context: any) => {
       if (!context.user) {
         throw new Error("Unauthorized");
       }
