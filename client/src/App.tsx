@@ -31,15 +31,17 @@ function App() {
         <Route path="/" element={user ? <Navigate to="/home" /> : <LandingPage />} />
 
         {/* Protected Routes Inside Header */}
-        <Route path="/" 
+        {user && (
+          <Route path="/home" 
             element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
-        >
-        <Route index element={<Home />} />  {/* Default page after login */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/photos" element={<Photos />} />
-        <Route path="/chat" element={<Chat />} />
-        </Route>
+          >
+          <Route index element={<Home />} />  {/* Default page after login */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/photos" element={<Photos />} />
+          <Route path="/chat" element={<Chat />} />
+          </Route>
+        )}
 
         {/* Catch-all Route */}
         <Route path="*" element={<Navigate to="/" />} />
