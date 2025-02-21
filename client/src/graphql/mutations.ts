@@ -21,6 +21,10 @@ export const LOGIN_MUTATION = gql`
         _id
         username
         email
+        profilePic
+        location
+        bio
+        albums[albums.id, albums.name]
       }
     }
   }

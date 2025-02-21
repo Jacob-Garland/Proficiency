@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import connectDB from './config/database.js';
 import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './graphql/typeDefs.js';
@@ -29,10 +30,25 @@ app.get("/", (_req, res) => {
 
 connectDB();
 
+const getUserFromToken = (token: string | undefined) => {
+    if (!token) return null;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      return decoded;
+    } catch (error) {
+      return null;
+    }
+};
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => authMiddleware({ req }),
+    context: ({ req }) => {
+        authMiddleware({ req });
+        const token = req.headers.authorization?.split(" ")[1];
+        const user = getUserFromToken(token);
+        return { user };
+    },
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
 });
 

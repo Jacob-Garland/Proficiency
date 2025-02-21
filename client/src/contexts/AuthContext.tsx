@@ -1,16 +1,21 @@
 import { createContext } from "react";
 
 interface User {
-  id: string;
-  name: string;
+  _id: string;
+  username: string;
   email: string;
+  profilePic: string;
+  location: string;
+  bio: string;
+  albums: { id: string; name: string }[];
+  createdAt: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
-  login: (token: string, userData: { id: string; name: string; email: string }) => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
+  refetch: () => void;
 }
 
 export const AuthContext = createContext({} as AuthContextType);

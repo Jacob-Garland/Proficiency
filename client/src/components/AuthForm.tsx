@@ -28,7 +28,7 @@ export default function AuthForm() {
 
       if (data) {
         const token = isSignup ? data.signup.token : data.login.token;
-        login(token, { id: "", name: "", email: formState.email });
+        login(token, data);
       }
       localStorage.setItem('token', data.signUp.token || data.login.token);
       navigate('/home');
