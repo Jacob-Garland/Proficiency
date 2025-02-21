@@ -6,9 +6,11 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  location: string;
-  bio: string;
-  profilePic: string;
+  profilePic?: string;
+  location?: string;
+  bio?: string;
+  albums: mongoose.Types.ObjectId[];
+  posts: mongoose.Types.ObjectId[];
   createdAt: Date;
   comparePassword(enteredPassword: string): Promise<boolean>;
 }
@@ -18,11 +20,13 @@ const UserSchema = new mongoose.Schema<IUser>({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  profilePic: { type: String, default: "" },
   location: { type: String, default: "" },
   bio: { type: String, default: "" },
-  profilePic: { type: String, default: "" },
+  albums: [{ type: mongoose.Schema.Types.ObjectId, ref: "Album" }],
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   createdAt: { type: Date, default: Date.now },
-});
+}, {timestamps: true});
 
 // Hashing password before saving to database on sign-up
 UserSchema.pre("save", async function (next) {
@@ -33,6 +37,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+// Compare password entered by user with hashed password in database on login
 UserSchema.methods.comparePassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
