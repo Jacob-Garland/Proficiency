@@ -45,7 +45,7 @@ async function startServer() {
       cors: false, // CORS already handled above
     });
   
-    const PORT = process.env.PORT || 4000;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
     });
