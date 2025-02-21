@@ -39,6 +39,7 @@ const server = new ApolloServer({
 async function startServer() {
     await connectDB();
     await server.start();
+    console.log('🚀 Server started!')
 
     server.applyMiddleware({
       app,
@@ -46,10 +47,10 @@ async function startServer() {
       cors: false, // CORS already handled above
     });
   
-    const PORT = process.env.PORT || 4000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
-    });
+    // const PORT = process.env.PORT || 4000;
+    // app.listen(PORT, () => {
+    //   console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    // });
 }
   
 startServer().catch((err) => {
