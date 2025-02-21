@@ -31,7 +31,7 @@ export default function AuthForm() {
         login(token, { id: "", name: "", email: formState.email });
       }
       localStorage.setItem('token', data.signUp.token || data.login.token);
-      navigate('/dashboard');
+      navigate('/home');
     } catch (error) {
       console.error("Error:", error);
     }

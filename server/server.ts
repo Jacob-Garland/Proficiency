@@ -33,6 +33,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req }) => authMiddleware({ req }),
+    persistedQueries: false, // Protect against DDOS attacks, recommended by Render
 });
 
 async function startServer() {
