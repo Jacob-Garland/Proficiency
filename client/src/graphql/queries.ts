@@ -9,16 +9,6 @@ query Me {
     profilePic
     location
     bio
-    albums {
-      _id
-      name
-      photos
-    }
-    posts {
-      _id
-      title
-      body
-      photos
-    }
+    createdAt
 }
 `;
