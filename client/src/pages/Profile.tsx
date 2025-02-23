@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Box, Avatar, Text, VStack, HStack, Divider } from "@chakra-ui/react";
+import { Box, Avatar, Text, VStack, Divider } from "@chakra-ui/react";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -23,17 +23,9 @@ const Profile = () => {
 
       {/* Albums Section */}
       <Text fontSize="xl" fontWeight="bold" mb={3}>Albums</Text>
-      <HStack spacing={3} overflowX="auto">
-        {user.albums && user.albums.length > 0 ? (
-          user.albums.map(album => (
-            <Box key={album.id} p={3} borderWidth={1} borderRadius="md">
-              <Text>{album.name}</Text>
-            </Box>
-          ))
-        ) : (
-          <Text>No albums yet.</Text>
-        )}
-      </HStack>
+      <Box minH="150px" p={3} borderWidth={1} borderRadius="md">
+        <Text>No albums yet.</Text>
+      </Box>
 
       <Divider my={6} />
 
