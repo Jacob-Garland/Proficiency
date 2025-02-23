@@ -50,6 +50,11 @@ const server = new ApolloServer({
         return { user };
     },
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
+    debug: true, // Change to false in production
+    formatError: (error) => {
+        console.error("GraphQL Error:", error);
+        return error;
+    },
 });
 
 async function startServer() {

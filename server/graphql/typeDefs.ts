@@ -19,7 +19,7 @@ const typeDefs = gql`
     user: User!
     title: String!
     body: String!
-    photos: [String]
+    photos: [Album]
     createdAt: String!
   }
 

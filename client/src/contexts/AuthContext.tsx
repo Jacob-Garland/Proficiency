@@ -7,7 +7,9 @@ interface User {
   profilePic: string;
   location: string;
   bio: string;
-  albums: { id: string; name: string }[];
+  albums: { _id: string; name: string };
+  posts: { _id: string; title: string; body: string };
+  token: string;
   createdAt: string;
 }
 
