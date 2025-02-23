@@ -9,8 +9,6 @@ export interface IUser extends Document {
   profilePic?: string;
   location?: string;
   bio?: string;
-  albums: mongoose.Types.ObjectId[];
-  posts: mongoose.Types.ObjectId[];
   createdAt: Date;
   comparePassword(enteredPassword: string): Promise<boolean>;
 }
@@ -23,8 +21,6 @@ const UserSchema = new mongoose.Schema<IUser>({
   profilePic: { type: String, default: "" },
   location: { type: String, default: "" },
   bio: { type: String, default: "" },
-  albums: [{ type: mongoose.Schema.Types.ObjectId, ref: "Album" }],
-  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   createdAt: { type: Date, default: Date.now },
 }, {timestamps: true});
 

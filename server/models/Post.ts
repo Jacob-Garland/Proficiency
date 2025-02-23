@@ -2,16 +2,16 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IPost extends Document {
   user: mongoose.Types.ObjectId;
-  content: string;
-  images?: string[];
+  title: string;
+  body: string;
   createdAt: Date;
 }
 
 const PostSchema = new Schema<IPost>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    content: { type: String, required: true },
-    images: [{ type: String }],
+    title: { type: String, required: true },
+    body: { type: String, required: true },
   },
   { timestamps: true }
 );

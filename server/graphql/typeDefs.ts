@@ -8,8 +8,6 @@ const typeDefs = gql`
     profilePic: String
     location: String
     bio: String
-    albums: [Album]
-    posts: [Post]
     token: String!
     createdAt: String!
   }
@@ -19,7 +17,6 @@ const typeDefs = gql`
     user: User!
     title: String!
     body: String!
-    photos: [Album]
     createdAt: String!
   }
 
@@ -39,21 +36,17 @@ const typeDefs = gql`
   type Query {
     me: User
     getPosts: [Post]
-    getAlbums: [Album]
     getUsers: [User]
     getUser(_id: ID!): User
     getPost(_id: ID!): [Post]
-    getAlbum(_id: ID!): [Album]
   }
 
   type Mutation {
     signup(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload!
     updateProfile(email: String!, username: String!, profilePic: String, location: String, bio: String): User
-    createAlbum(_id: ID!, name: String!): Album
-    updateAlbum(_id: ID!, name: String!): Album
-    createPost(_id: ID!, title: String!, body: String!, photos: [String]): Post
-    updatePost(_id: ID!, title: String!, body: String!, photos: [String]): Post
+    createPost(_id: ID!, title: String!, body: String!): Post
+    updatePost(_id: ID!, title: String!, body: String!): Post
   }
 `;
 

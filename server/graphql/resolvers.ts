@@ -1,6 +1,5 @@
 import { User } from "../models/User.js";
 import { Post } from "../models/Post.js";
-import { Album } from "../models/Album.js";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -29,12 +28,6 @@ const resolvers = {
       getPost: async (_: any, { _id }: { _id: string }) => {
         return await Post.findById(_id).populate("user");
       },
-      getAlbums: async (_: any, { userId }: { userId: string }) => {
-        return await Album.find({ user: userId });
-      },
-      getAlbum: async (_: any, { _id }: { _id: string }) => {
-        return await Album.findById(_id).populate("user");
-      }
   },
   Mutation: {
     signup: async (
@@ -50,7 +43,6 @@ const resolvers = {
         username,
         email,
         password: hashedPassword,
-        albums: [],
         posts: [],
       })
       await newUser.save();
@@ -87,37 +79,9 @@ const resolvers = {
       );
       return updatedUser;
     },
-    createAlbum: async (
-      _: any,
-      { _id, name }: { _id: string, name: string },
-      context: any
-    ) => {
-      if (!context.user) {
-        throw new Error("Unauthorized");
-      }
-      const newAlbum = new Album({
-        _id: new mongoose.Types.ObjectId(),
-        user: context.user.id,
-        name,
-        photos: [],
-      });
-      await newAlbum.save();
-      await User.findByIdAndUpdate(context.user.id, { $push: { albums: newAlbum._id } });
-      return newAlbum;
-    },
-    updateAlbum: async (
-      _: any,
-      { _id, name }: { _id: string, name: string },
-      context: any
-    ) => {
-      if (!context.user) {
-        throw new Error("Unauthorized");
-      }
-      return await Album.findByIdAndUpdate(_id, { name }, { new: true });
-    },
     createPost: async (
       _: any,
-      { _id, title, body, photos }: { _id: string, title: string, body: string, photos: string[] },
+      { _id, title, body }: { _id: string, title: string, body: string },
       context: any
     ) => {
       if (!context.user) {
@@ -128,7 +92,6 @@ const resolvers = {
         user: context.user.id,
         title,
         body,
-        photos,
       });
       await newPost.save();
       await User.findByIdAndUpdate(context.user.id, { $push: { posts: newPost._id } });
@@ -136,13 +99,13 @@ const resolvers = {
     },
     updatePost: async (
       _: any,
-      { _id, title, body, photos }: { _id: string, title: string, body: string, photos: string[] },
+      { _id, title, body }: { _id: string, title: string, body: string },
       context: any
     ) => {
       if (!context.user) {
         throw new Error("Unauthorized");
       }
-      return await Post.findByIdAndUpdate(_id, { title, body, photos }, { new: true });
+      return await Post.findByIdAndUpdate(_id, { title, body }, { new: true });
     },
   },
 };
