@@ -1,34 +1,16 @@
 import express from "express";
-import cors from "cors";
+import { expressMiddleware } from "@apollo/server/express4"
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import connectDB from './config/database.js';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from '@apollo/server';
 import typeDefs from './graphql/typeDefs.js';
 import resolvers from './graphql/resolvers.js';
 import { authMiddleware } from './utils/auth.js';
-import bodyParser from 'body-parser';
+import path from 'node:path';
+import { Request, Response } from 'express';
 
 dotenv.config();
-
-const app = express();
-
-const corsOptions = {
-    origin: ["https://proficiency.onrender.com"],
-    credentials: true,
-    methods: ["GET, POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions),);
-app.use(bodyParser.json());
-app.options("*", cors(corsOptions));
-
-app.get("/", (_req, res) => {
-    res.send("GraphQL server is running.");
-});
-
-connectDB();
 
 const getUserFromToken = (token: string | undefined) => {
     if (!token) return null;
@@ -43,37 +25,44 @@ const getUserFromToken = (token: string | undefined) => {
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => {
-        authMiddleware({ req });
-        const token = req.headers.authorization?.split(" ")[1];
-        const user = getUserFromToken(token);
-        return { user };
-    },
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
-    debug: true, // Change to false in production
     formatError: (error) => {
         console.error("GraphQL Error:", error);
         return error;
     },
 });
 
-async function startServer() {
-    await connectDB();
-    await server.start();
-    console.log('🚀 Server started!')
+const startApolloServer = async () => {
+  await server.start();
+  await connectDB();
 
-    server.applyMiddleware({
-      app,
-      path: '/graphql',
-      cors: false, // CORS already handled above
-    });
+  const PORT = process.env.PORT || 3001;
+  const app = express();
+
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
+
+  app.use('/graphql', expressMiddleware(server as any, {
+    context: async ({ req }) => {
+      authMiddleware({ req });
+      const token = req.headers.authorization?.split(" ")[1];
+      const user = getUserFromToken(token);
+      return { user };
+    }
+    }));
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
   
-    const PORT = process.env.PORT || 4000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    app.get('*', (_req: Request, res: Response) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
-}
-  
-startServer().catch((err) => {
-    console.error('Server startup error:', err);
-});
+  }
+
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  });
+};
+
+startApolloServer();

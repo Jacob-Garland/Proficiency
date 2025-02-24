@@ -4,21 +4,23 @@
   "description": "backend server for Proficiency",
   "main": "server.ts",
   "scripts": {
-    "dev": "tsx server.ts",
-    "build": "tsc",
+    "dev": "concurrently \"cd client && npm run dev\" \"nodemon --exec ts-node server.ts\"",
+    "build-server": "tsc",
     "user-seed": "tsx seeds/testuser.ts",
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "render-build": "npm install && npm run build"
+    "build": "cd client && npm run render-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Jacob Garland",
   "license": "",
   "type": "module",
   "dependencies": {
+    "@apollo/server": "^4.11.3",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^9.1.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "graphql": "^16.10.0",

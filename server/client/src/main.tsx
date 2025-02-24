@@ -6,10 +6,8 @@ import { AuthProvider } from './contexts/AuthProvider.tsx'
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
-
 const httplink = createHttpLink({
-  uri: `${API_BASE_URL}/graphql`,
+  uri: `/graphql`,
   credentials: 'include',
 })
 
