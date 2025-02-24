@@ -24,7 +24,6 @@ const typeDefs = gql`
     _id: ID!
     user: User!
     name: String!
-    photos: [String]
     createdAt: String!
   }
 
@@ -38,7 +37,7 @@ const typeDefs = gql`
     getPosts: [Post]
     getUsers: [User]
     getUser(_id: ID!): User
-    getPost(_id: ID!): [Post]
+    getPost(_id: ID!): Post
   }
 
   type Mutation {

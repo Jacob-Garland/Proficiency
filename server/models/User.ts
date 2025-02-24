@@ -1,8 +1,7 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser extends Document {
-  _id: string;
   username: string;
   email: string;
   password: string;
@@ -14,7 +13,6 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
-  _id: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -22,7 +20,7 @@ const UserSchema = new mongoose.Schema<IUser>({
   location: { type: String, default: "" },
   bio: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
-}, {timestamps: true});
+}, {timestamps: true, _id: true});
 
 // Hashing password before saving to database on sign-up
 UserSchema.pre("save", async function (next) {

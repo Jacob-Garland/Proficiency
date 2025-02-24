@@ -43,7 +43,6 @@ const resolvers = {
         username,
         email,
         password: hashedPassword,
-        posts: [],
       })
       await newUser.save();
 

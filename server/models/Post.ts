@@ -13,7 +13,7 @@ const PostSchema = new Schema<IPost>(
     title: { type: String, required: true },
     body: { type: String, required: true },
   },
-  { timestamps: true }
+  { timestamps: true, _id: true }
 );
 
 export const Post = mongoose.model<IPost>("Post", PostSchema);
