@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { useQuery, useMutation } from "@apollo/client";
-import { ME_QUERY } from "../graphql/queries";
-import { LOGIN_MUTATION } from "../graphql/mutations";
+import { GET_USER_PROFILE } from "../graphql/queries/userQueries";
+import { LOGIN_USER } from "../graphql/mutations/userMutations";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const token = localStorage.getItem("token");
   const [user, setUser] = useState(null);
-  const { data, refetch } = useQuery(ME_QUERY, { skip: !token });
+  const { data, refetch } = useQuery(GET_USER_PROFILE, { skip: !token });
 
   useEffect(() => {
     if (data?.me) setUser(data.me);
   }, [data]);
 
-  const [loginMutation] = useMutation(LOGIN_MUTATION);
+  const [loginMutation] = useMutation(LOGIN_USER);
 
   const login = async (email: string, password: string) => {
     try {

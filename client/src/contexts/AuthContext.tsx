@@ -1,15 +1,13 @@
 import { createContext } from "react";
 
 interface User {
-  _id: string;
+  id: number;
   username: string;
   email: string;
   profilePic: string;
   location: string;
   bio: string;
-  albums: { _id: string; name: string };
-  posts: { _id: string; title: string; body: string };
-  token: string;
+  posts: { _id: string; title: string; content: string; images: string[]; createdAt: string }[];
   createdAt: string;
 }
 

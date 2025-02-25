@@ -3,15 +3,15 @@ import { useAuth } from "../contexts/useAuth";
 import { Box, Button, Input, VStack, Text, Flex, FormControl, FormLabel } from "@chakra-ui/react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/mutations";
+import { LOGIN_USER, SIGNUP_USER } from "../graphql/mutations/userMutations";
 
 export default function AuthForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(false);
 
-  const [loginMutation] = useMutation(LOGIN_MUTATION);
-  const [signupMutation] = useMutation(SIGNUP_MUTATION);
+  const [loginMutation] = useMutation(LOGIN_USER);
+  const [signupMutation] = useMutation(SIGNUP_USER);
 
   const [formState, setFormState] = useState({
     username: "",
