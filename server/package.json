@@ -4,11 +4,10 @@
   "description": "backend server for Proficiency",
   "main": "server.ts",
   "scripts": {
-    "dev": "concurrently \"cd client && npm run dev\" \"nodemon --exec ts-node server.ts\"",
-    "build-server": "npm install && tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
     "user-seed": "tsx seeds/testuser.ts",
-    "start": "npm run build && node dist/server.js",
-    "build": "concurrently \"cd client && npm run render-build\" \"npm run build-server\"",
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

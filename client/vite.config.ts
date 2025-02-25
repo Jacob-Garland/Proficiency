@@ -8,6 +8,11 @@ dotenv.config()
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5000,
-  }
+    proxy: {
+      '/graphql': 'http://localhost:4000',
+    }
+  },
+  build: {
+    outDir: '../server/dist/public',
+  },
 })

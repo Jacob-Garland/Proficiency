@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Box, Avatar, Text, VStack, Divider } from "@chakra-ui/react";
+import { Box, Avatar, Text, VStack, Divider, Spinner } from "@chakra-ui/react";
+
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
 
   if (!user) {
-    return <Text>Loading...</Text>;
+    return <Spinner />;
   }
 
   return (
