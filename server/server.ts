@@ -36,10 +36,7 @@ const startApolloServer = async () => {
   const PORT = config.PORT || 3001;
   const app = express();
 
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
-
-  app.use('/graphql', expressMiddleware(server as any, {
+  app.use('/graphql', express.json(), expressMiddleware(server as any, {
     context: async ({ req }) => {
       authMiddleware({ req });
       const token = req.headers.authorization?.split(" ")[1];
@@ -49,10 +46,10 @@ const startApolloServer = async () => {
   }));
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, "public")));
+    app.use(express.static(path.join(__dirname, "../client/dist")));
   
     app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
+      res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
     });
   }
 

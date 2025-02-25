@@ -4,8 +4,8 @@
   "description": "backend server for Proficiency",
   "main": "server.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "npm install && tsc",
+    "dev": "ts-node server/server.ts",
+    "build": "tsc && vite build --outDir dist/client",
     "user-seed": "tsx seeds/testuser.ts",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"

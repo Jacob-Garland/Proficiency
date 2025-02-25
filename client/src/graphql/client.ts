@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-const PROD_URI = "https://proficiency-api.onrender.com/graphql";
+const PROD_URI = "/graphql";
 const DEV_URI = "http://localhost:4000/graphql";
 
 // API endpoint for GraphQL server
