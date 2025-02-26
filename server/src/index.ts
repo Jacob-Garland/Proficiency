@@ -9,10 +9,13 @@ import path from 'node:path';
 import { Request, Response } from 'express';
 import config from './config/index.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import { fileURLToPath } from "node:url";
 
 const PORT = config.PORT || 3001;
 const app = express();
 const schema = makeExecutableSchema({ typeDefs, resolvers });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const getUserFromToken = (token: string | undefined) => {
     if (!token) return null;
