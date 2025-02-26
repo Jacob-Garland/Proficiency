@@ -9,6 +9,9 @@ import path from 'node:path';
 import { Request, Response } from 'express';
 import config from './config/index.js';
 
+const PORT = config.PORT || 3001;
+const app = express();
+
 const getUserFromToken = (token: string | undefined) => {
     if (!token) return null;
     try {
@@ -33,10 +36,7 @@ const startApolloServer = async () => {
   await server.start();
   await connectDB();
 
-  const PORT = config.PORT || 3001;
-  const app = express();
-
-  app.use('/graphql', express.json(), expressMiddleware(server as any, {
+  app.use('/graphql', express.json(), expressMiddleware(server, {
     context: async ({ req }) => {
       authMiddleware({ req });
       const token = req.headers.authorization?.split(" ")[1];
@@ -45,13 +45,11 @@ const startApolloServer = async () => {
     }
   }));
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
   
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
-    });
-  }
+  app.get('*', (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+  });
 
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
