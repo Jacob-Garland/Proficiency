@@ -8,9 +8,11 @@ import { authMiddleware } from './middleware/authMiddleware.js';
 import path from 'node:path';
 import { Request, Response } from 'express';
 import config from './config/index.js';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
 const PORT = config.PORT || 3001;
 const app = express();
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const getUserFromToken = (token: string | undefined) => {
     if (!token) return null;
@@ -23,8 +25,7 @@ const getUserFromToken = (token: string | undefined) => {
 };
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
     formatError: (error) => {
         console.error("GraphQL Error:", error);
