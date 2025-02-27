@@ -2,8 +2,6 @@ import Header from './components/Header';
 import { useAuth } from './contexts/useAuth';
 import ProtectedRoute from './routes/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client';
-import client from './graphql/client';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -28,7 +26,6 @@ function App() {
   const { user } = useAuth();
 
   return (
-    <ApolloProvider client={client}>
       <Router>
         <Routes>
           {/* Public Route: Landing Page */}
@@ -52,7 +49,6 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
-    </ApolloProvider>
   )
 }
 
