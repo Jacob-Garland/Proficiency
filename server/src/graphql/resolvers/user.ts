@@ -13,10 +13,15 @@ const userResolvers = {
       return await User.findById(user.id).populate("posts");
     },
 
-    // Fetch user by ID
+    // Fetch current user by ID
     getUserProfile: async (_: any, __: any, { user }: any) => {
       if (!user) throw new AuthenticationError("Not authenticated");
       return await User.findById(user.id).populate("posts");
+    },
+
+    // Fetch another user by ID
+    getUserById: async (_: any, { id }: any) => {
+      return await User.findById(id).populate("posts");
     },
   },
 

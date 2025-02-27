@@ -20,12 +20,13 @@ const userTypeDefs = gql`
   extend type Query {
     me: User
     getUserProfile(id: ID!): User
+    getUserById(id: ID!): User
   }
 
   extend type Mutation {
-    register(username: String!, email: String!, password: String!): AuthPayload
+    signup(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
-    updateProfile(username: String, location: String, bio: String, profilePic: String): User
+    updateUserProfile(username: String, location: String, bio: String, profilePic: String): User
   }
 `;
 
