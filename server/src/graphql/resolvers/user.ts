@@ -10,18 +10,19 @@ const userResolvers = {
     // Fetch currently authenticated user
     me: async (_: any, __: any, { user }: any) => {
       if (!user) throw new AuthenticationError("Not authenticated");
-      return await User.findById(user.id).populate("posts").populate("albums");
+      return await User.findById(user.id).populate("posts");
     },
 
     // Fetch user by ID
-    getUser: async (_: any, { id }: any) => {
-      return await User.findById(id).populate("posts").populate("albums");
+    getUserProfile: async (_: any, __: any, { user }: any) => {
+      if (!user) throw new AuthenticationError("Not authenticated");
+      return await User.findById(user.id).populate("posts");
     },
   },
 
   Mutation: {
     // Register new user
-    register: async (_: any, { username, email, password }: any) => {
+    signup: async (_: any, { username, email, password }: any) => {
       const existingUser = await User.findOne({ email });
       if (existingUser) throw new UserInputError("Email is already taken");
 
@@ -55,7 +56,7 @@ const userResolvers = {
     },
 
     // Update user profile
-    updateProfile: async (_: any, args: any, { user }: any) => {
+    updateUserProfile: async (_: any, args: any, { user }: any) => {
       if (!user) throw new AuthenticationError("Not authenticated");
 
       const updatedUser = await User.findByIdAndUpdate(user.id, args, { new: true });
