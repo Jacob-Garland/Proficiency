@@ -6,12 +6,12 @@ const postResolvers = {
   Query: {
     // Fetch a single post by ID
     getPost: async (_: any, { id }: any) => {
-      return await Post.findById(id).populate("author");
+      return await Post.findById(id).populate("user");
     },
 
     // Fetch all posts from a user
     getUserPosts: async (_: any, { userId }: any) => {
-      return await Post.find({ author: userId }).populate("author");
+      return await Post.find({ author: userId }).populate("user");
     },
   },
 

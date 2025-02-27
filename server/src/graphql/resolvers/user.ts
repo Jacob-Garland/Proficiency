@@ -1,9 +1,6 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { AuthenticationError, UserInputError } from "apollo-server-express";
 import { User } from "../../models/User.js";
-import { Post } from "../../models/Post.js";
-import config from "../../config/index.js";
 import { generateToken } from "../../utils/generateToken.js";
 
 const userResolvers = {
