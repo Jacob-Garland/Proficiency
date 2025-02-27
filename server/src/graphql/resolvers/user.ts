@@ -4,6 +4,7 @@ import { AuthenticationError, UserInputError } from "apollo-server-express";
 import { User } from "../../models/User.js";
 import { Post } from "../../models/Post.js";
 import config from "../../config/index.js";
+import { generateToken } from "../../utils/generateToken.js";
 
 const userResolvers = {
   Query: {
@@ -42,20 +43,25 @@ const userResolvers = {
       });
 
       await newUser.save();
-      const token = jwt.sign({ id: newUser.id, email }, config.JWT_SECRET, { expiresIn: "7d" });
+      const token = generateToken(newUser);
 
       return { token, user: newUser };
     },
 
     // Login user
-    login: async (_: any, { email, password }: any) => {
+    login: async (_: any, { email, password }: any ) => {
+      console.log("Recieved login request", email, password);
+
       const user = await User.findOne({ email });
-      if (!user) throw new AuthenticationError("Invalid credentials");
+      console.log("User found", user);
+      if (!user) throw new AuthenticationError("Invalid email.");
 
       const match = await bcrypt.compare(password, user.password);
-      if (!match) throw new AuthenticationError("Invalid credentials");
+      console.log("Password matchs");
+      if (!match) throw new AuthenticationError("Invalid password.");
 
-      const token = jwt.sign({ id: user.id, email }, config.JWT_SECRET, { expiresIn: "7d" });
+      const token = generateToken(user);
+      console.log("Token generated", token);
 
       return { token, user };
     },

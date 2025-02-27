@@ -10,9 +10,11 @@ async function seedDatabase() {
 
     console.log("Connected to MongoDB");
 
-    // await User.deleteMany(); // WARNING: Clears all existing users
+    await User.deleteMany(); // WARNING: Clears all existing users
+    console.log("Cleared users collection");
 
     const adminUser = new User({
+      id: 1,
       username: "admin",
       email: "admin@example.com",
       password: "password123",

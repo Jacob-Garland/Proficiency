@@ -30,6 +30,7 @@ export default function AuthForm() {
         const token = isSignup ? data.signup.token : data.login.token;
         login(token, data);
       }
+
       localStorage.setItem('token', data.signUp.token || data.login.token);
       navigate('/home');
     } catch (error) {

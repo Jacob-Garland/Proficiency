@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { data } = await loginMutation({ variables: { email, password } });
       localStorage.setItem("token", data.login.token);
-      localStorage.setItem("id", data.login.user._id);
+      localStorage.setItem("id", data.login.user.id);
       localStorage.setItem("email", data.login.user.email);
       setUser(data.login.user);
       await refetch();
