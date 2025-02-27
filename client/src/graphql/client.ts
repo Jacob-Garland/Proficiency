@@ -1,12 +1,9 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-const PROD_URI = "/graphql";
-const DEV_URI = "http://localhost:4000/graphql";
-
 // API endpoint for GraphQL server
 const httpLink = createHttpLink({
-  uri: window.location.hostname === "localhost" ? DEV_URI : PROD_URI, 
+  uri: "https://proficiency.onrender.com/graphql", 
 });
 
 const authLink = setContext((_, { headers }) => {
