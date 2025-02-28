@@ -21,7 +21,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(async (email: string, password: string) => {
     try {
-      const { data } = await loginMutation({ variables: { email, password } });
+      const { data } = await loginMutation({ variables: { input: { email, password } }});
+      if (!data?.login) throw new Error("Invalid response structure from login mutation");
+      console.log("Login response:", data.login);
+
       localStorage.setItem("token", data.login.token);
       localStorage.setItem("id", data.login.user.id);
       localStorage.setItem("email", data.login.user.email);

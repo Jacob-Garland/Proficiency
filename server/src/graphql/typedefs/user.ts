@@ -26,8 +26,13 @@ const userTypeDefs = gql`
 
   extend type Mutation {
     signup(username: String!, email: String!, password: String!): AuthPayload
-    login(email: String!, password: String!): AuthPayload
+    login(input: LoginInput!): AuthPayload
     updateUserProfile(username: String, location: String, bio: String, profilePic: String): User
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
   }
 `;
 

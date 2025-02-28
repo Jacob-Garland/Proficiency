@@ -11,7 +11,7 @@ export const GET_USER_PROFILE = gql`
       bio
       profilePic
       posts {
-        _id
+        id
         title
         content
         images
@@ -31,7 +31,7 @@ export const GET_USER_BY_ID = gql`
       bio
       profilePic
       posts {
-        _id
+        id
         title
         content
         images
