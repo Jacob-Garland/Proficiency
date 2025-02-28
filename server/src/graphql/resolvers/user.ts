@@ -54,7 +54,7 @@ const userResolvers = {
       if (!user) throw new AuthenticationError("Invalid email.");
 
       const match = await bcrypt.compare(password, user.password);
-      console.log("Password matchs");
+      console.log("Password matched");
       if (!match) throw new AuthenticationError("Invalid password.");
 
       const token = generateToken(user);

@@ -5,6 +5,7 @@ const userTypeDefs = gql`
     id: ID!
     username: String!
     email: String!
+    password: String!
     location: String
     bio: String
     profilePic: String
