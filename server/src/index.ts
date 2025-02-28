@@ -1,6 +1,6 @@
 import express from "express";
+import cors from "cors";
 import { expressMiddleware } from "@apollo/server/express4"
-import jwt from "jsonwebtoken";
 import connectDB from './config/database.js';
 import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './graphql/index.js';
@@ -17,16 +17,6 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const getUserFromToken = (token: string | undefined) => {
-  if (!token) return null;
-  try {
-    const decoded = jwt.verify(token, config.JWT_SECRET!);
-    return decoded;
-  } catch (error) {
-    return null;
-  }
-};
-
 const server = new ApolloServer({
     schema,
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
@@ -40,13 +30,13 @@ const startApolloServer = async () => {
   await server.start();
   await connectDB();
 
-  app.use('/graphql', express.json(), expressMiddleware(server, {
-    context: async ({ req }) => {
-      authMiddleware({ req });
-      const token = req.headers.authorization?.split(" ")[1];
-      const user = getUserFromToken(token);
-      return { user };
-    }
+  app.use(cors());
+  app.use(express.json());
+  app.use('/graphql', expressMiddleware(server, {
+    context: async ({ req }: { req: Request }) => {
+      const { user, newToken } = authMiddleware({ req });
+      return { user, newToken };
+    },
   }));
 
   app.use(express.static(path.join(__dirname, "../public/dist")));
@@ -57,7 +47,6 @@ const startApolloServer = async () => {
 
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
   });
 };
 
