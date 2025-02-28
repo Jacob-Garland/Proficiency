@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 const userTypeDefs = gql`
   type User {
-    id: ID!
+    id: Number!
     username: String!
     email: String!
     password: String!
@@ -20,19 +20,14 @@ const userTypeDefs = gql`
 
   extend type Query {
     me: User
-    getUserProfile(id: ID!): User
-    getUserById(id: ID!): User
+    getUserProfile(id: Number!): User
+    getUserById(id: Number!): User
   }
 
   extend type Mutation {
     signup(username: String!, email: String!, password: String!): AuthPayload
-    login(input: LoginInput!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
     updateUserProfile(username: String, location: String, bio: String, profilePic: String): User
-  }
-
-  input LoginInput {
-    email: String!
-    password: String!
   }
 `;
 
