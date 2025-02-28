@@ -17,6 +17,16 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const getUserFromToken = (token: string | undefined) => {
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token, config.JWT_SECRET!);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
 const server = new ApolloServer({
     schema,
     persistedQueries: false, // Protect against DDOS attacks, recommended by Render
@@ -34,7 +44,7 @@ const startApolloServer = async () => {
     context: async ({ req }) => {
       authMiddleware({ req });
       const token = req.headers.authorization?.split(" ")[1];
-      const user = token ? jwt.verify(token, config.JWT_SECRET) : null;
+      const user = getUserFromToken(token);
       return { user };
     }
   }));
