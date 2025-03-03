@@ -28,7 +28,7 @@ export default function Header() {
           size="lg" 
           ml={6} />
         <MenuList bg="gray.300">
-          {["home", "profile", "jobs", "photos", "chat"].map((route) => (
+          {["home", "profile", "jobs", "photos", "chat", "settings"].map((route) => (
             <MenuItem 
               key={route}
               onClick={() => navigate(`/${route}`)}

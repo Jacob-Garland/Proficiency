@@ -37,7 +37,7 @@ function App() {
               element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
             >
             <Route index element={<Home />} />  {/* Default page after login */}
-            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/photos" element={<Photos />} />
             <Route path="/chat" element={<Chat />} />
