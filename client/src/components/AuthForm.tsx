@@ -19,11 +19,21 @@ export default function AuthForm() {
     password: "",
   });
 
+  // Optimized handleChange function
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+  
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       console.log("Submitting login for:", formState.email);
-      
+
       if (isSignup) {
         const { data } = await signupMutation({ 
           variables: {
@@ -67,7 +77,7 @@ export default function AuthForm() {
               name="username"
               placeholder="Username"
               value={formState.username}
-              onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+              onChange={handleChange}
               required
             />
           </FormControl>
@@ -79,7 +89,7 @@ export default function AuthForm() {
             type="email"
             placeholder="Email"
             value={formState.email}
-            onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+            onChange={handleChange}
             required
           />
         </FormControl>
@@ -90,7 +100,7 @@ export default function AuthForm() {
             type="password"
             placeholder="Password"
             value={formState.password}
-            onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+            onChange={handleChange}
             required
         />
         </FormControl>
