@@ -22,16 +22,31 @@ export default function AuthForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = isSignup
-        ? await signupMutation({ variables: { username: formState.username, email: formState.email, password: formState.password } })
-        : await loginMutation({ variables: { email: formState.email, password: formState.password } });
-
-      if (data) {
-        const token = isSignup ? data.signup.token : data.login.token;
-        login(token, data);
+      console.log("Submitting login for:", formState.email);
+      
+      if (isSignup) {
+        const { data } = await signupMutation({ 
+          variables: {
+            username: formState.username,
+            email: formState.email,
+            password: formState.password,
+          }
+        });
+        if (data?.signup) {
+          login(formState.email, formState.password);
+        }
+      } else {
+        const { data } = await loginMutation({ 
+          variables: {
+            email: formState.email,
+            password: formState.password,
+          }
+        });
+        if (data?.login) {
+          login(formState.email, formState.password);
+        }
       }
 
-      localStorage.setItem('token', data.signUp.token || data.login.token);
       navigate('/home');
     } catch (error) {
       console.error("Error:", error);
