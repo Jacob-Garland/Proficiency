@@ -31,7 +31,7 @@ const Profile = () => {
       <Divider my={6} />
 
       {/* Recent Posts */}
-      <Text fontSize="xl" fontWeight="bold" mb={3}>Recent Posts</Text>
+      <Text fontSize="xl" fontWeight="bold" mb={3}>Recent Jobs</Text>
       <Box minH="150px" p={3} borderWidth={1} borderRadius="md">
         <Text>No posts yet.</Text>
       </Box>

@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Grid, GridItem, VStack, Container, Image, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, Grid, GridItem, VStack, Image, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export default function Photos() {
@@ -12,7 +12,7 @@ export default function Photos() {
   ];
 
   return (
-    <Container maxW="container.lg" py={10} bg="gray.200">
+    <Box w="100vw" minH="100vh" py={10} bg="gray.200" px={{ base: 4, md: 10 }}>
       {/* Header Section */}
       <VStack spacing={4} align="center">
         <Heading size="xl" color="blue.500">
@@ -50,6 +50,6 @@ export default function Photos() {
           ))}
         </Grid>
       )}
-    </Container>
+    </Box>
   );
 }
