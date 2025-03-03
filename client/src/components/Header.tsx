@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Spacer, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { Box, Flex, Button, Divider, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/useAuth";
@@ -11,23 +11,13 @@ export default function Header() {
 
   return (
     <Box bg="green.700" p={4} color="white" boxShadow="lg">
-      <Flex align="center">
+      <Flex align="center" justify="space-between">
         {/* Logo */}
-        <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" onClick={() => { navigate("/home"); }}>
-          Proficiency
-        </Button>
-
-        <Spacer />
-
-        {/* Logout Button */}
-        <IconButton
-          aria-label="Logout"
-          icon={<FiLogOut />}
-          colorScheme="red"
-          ml={3}
-          size={"lg"}
-          onClick={logout}
-        />
+        <Flex flex="1" justify="center">
+          <Button variant="link" color="white" fontSize="3xl" fontWeight="bold" onClick={() => { navigate("/home"); }}>
+            Proficiency
+          </Button>
+        </Flex>
 
         {/* Hamburger Dropdown Menu */}
         <Menu>
@@ -38,41 +28,27 @@ export default function Header() {
           size="lg" 
           ml={6} />
         <MenuList bg="gray.300">
+          {["home", "profile", "jobs", "photos", "chat"].map((route) => (
             <MenuItem 
-              onClick={() => { navigate("/home"); }}
+              key={route}
+              onClick={() => navigate(`/${route}`)}
               fontWeight="bold"
-              color={location.pathname === "/home" ? "white" : "black"}
-              bg={location.pathname === "/home" ? "blue.500" : "transparent"}
+              color={location.pathname === `/${route}` ? "white" : "black"}
+              bg={location.pathname === `/${route}` ? "blue.500" : "transparent"}
               _hover={{ bg: "blue.300", color: "white" }}
-            > Home </MenuItem>
-            <MenuItem 
-              onClick={() => { navigate("/profile"); }}
-              fontWeight="bold"
-              color={location.pathname === "/profile" ? "white" : "black"}
-              bg={location.pathname === "/profile" ? "blue.500" : "transparent"}
-              _hover={{ bg: "blue.300", color: "white" }}
-            > Profile </MenuItem>
-            <MenuItem 
-              onClick={() => { navigate("/jobs"); }}
-              fontWeight="bold"
-              color={location.pathname === "/jobs" ? "white" : "black"}
-              bg={location.pathname === "/jobs" ? "blue.500" : "transparent"}
-              _hover={{ bg: "blue.300", color: "white" }}
-            > Jobs </MenuItem>
-            <MenuItem 
-              onClick={() => { navigate("/photos"); }}
-              fontWeight="bold"
-              color={location.pathname === "/photos" ? "white" : "black"}
-              bg={location.pathname === "/photos" ? "blue.500" : "transparent"}
-              _hover={{ bg: "blue.300", color: "white" }}
-            > Photos </MenuItem>
-            <MenuItem 
-              onClick={() => { navigate("/chat"); }}
-              fontWeight="bold"
-              color={location.pathname === "/chat" ? "white" : "black"}
-              bg={location.pathname === "/chat" ? "blue.500" : "transparent"}
-              _hover={{ bg: "blue.300", color: "white" }}
-            > Chat </MenuItem>
+            >
+              {route.charAt(0).toUpperCase() + route.slice(1)}
+            </MenuItem>
+          ))}
+          <Divider />
+          <MenuItem
+            onClick={logout}
+            fontWeight="bold"
+            color="red.600"
+            bg="transparent"
+            _hover={{ bg: "red.400", color: "white" }}
+            icon={<FiLogOut />}
+          > Logout </MenuItem>
         </MenuList>
         </Menu>
       </Flex>
