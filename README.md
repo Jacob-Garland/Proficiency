@@ -10,18 +10,24 @@ Users of Proficiency could also be artists sharing locations of all the murals t
 
 ## Table of Contents
 
+- [Screenshot](#screenshot)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
 
+## Screenshots
+
+![pc-screenshot](./client/public/Screenshot%202025-03-06%20232345.png)
+![mobile-screenshot](./client/public/IMG_6679.PNG)
+
 ## Installation
 
-To check the project out and edit for your own fun, clone the repository to your local computer. Then run `npm install` in your terminal.
+To check out the project's inner workings and edit for your own fun, clone the repository to your local computer. Then run `npm install` in your terminal from the project directory.
 
 ## Usage
 
-Visit my live deploy at:
+Visit my live deploy at: [Render](https://proficiency.onrender.com)
 
 ## Credits
 
