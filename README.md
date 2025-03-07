@@ -10,7 +10,7 @@ Users of Proficiency could also be artists sharing locations of all the murals t
 
 ## Table of Contents
 
-- [Screenshot](#screenshot)
+- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
